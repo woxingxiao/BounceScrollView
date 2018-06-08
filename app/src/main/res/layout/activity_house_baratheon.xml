@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/drawable_house_baratheon">
+
+        <com.xw.repo.widget.BounceScrollView
+            android:id="@+id/mBounceScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/sigil_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/sigil_of_house_baratheon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    style="@style/TextStyleWithFont"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="HOUSE BARATHEON"
+                    app:layout_constraintStart_toEndOf="@+id/sigil_iv"
+                    app:layout_constraintTop_toTopOf="@+id/sigil_iv"/>
+
+                <TextView
+                    android:id="@+id/motto_tv"
+                    style="@style/TextStyleWithFont"
+                    android:layout_marginTop="8dp"
+                    android:text="OURS IS THE FURY"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/name_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/name_tv"/>
+
+                <TextView
+                    android:id="@+id/introduction_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="16dp"
+                    android:text="@string/introduction_of_house_baratheon"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/mInterpolatorNameTV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sigil_iv"/>
+
+                <TextView
+                    android:id="@+id/mInterpolatorNameTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:padding="16dp"
+                    android:text="Interpolator of bounce movement: QUAD_IN"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </com.xw.repo.widget.BounceScrollView>
+    </FrameLayout>
+</LinearLayout>

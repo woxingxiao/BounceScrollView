@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pic_map_of_westeros"/>
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:collapsedTitleTextAppearance="?attr/toolbarStyle"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pic_crown"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/mToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Game of Thrones"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <com.xw.repo.widget.BounceScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/mHouseStarkTV"
+                style="@style/TextStyleWithFont"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="24dp"
+                android:drawableLeft="@drawable/sigil_of_house_stark"
+                android:drawablePadding="16dp"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="HOUSE STARK"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/mHouseTargaryenTV"
+                style="@style/TextStyleWithFont"
+                android:layout_marginTop="16dp"
+                android:drawableLeft="@drawable/sigil_of_house_targaryen"
+                android:drawablePadding="16dp"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="HOUSE TARGARYEN"
+                app:layout_constraintStart_toStartOf="@+id/mHouseStarkTV"
+                app:layout_constraintTop_toBottomOf="@+id/mHouseStarkTV"/>
+
+            <TextView
+                android:id="@+id/mHouseLannisterTV"
+                style="@style/TextStyleWithFont"
+                android:layout_marginTop="16dp"
+                android:drawableLeft="@drawable/sigil_of_house_lannister"
+                android:drawablePadding="16dp"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="HOUSE LANNISTER"
+                app:layout_constraintStart_toStartOf="@+id/mHouseTargaryenTV"
+                app:layout_constraintTop_toBottomOf="@+id/mHouseTargaryenTV"/>
+
+            <TextView
+                android:id="@+id/mHouseBaratheonTV"
+                style="@style/TextStyleWithFont"
+                android:layout_marginTop="16dp"
+                android:drawableLeft="@drawable/sigil_of_house_baratheon"
+                android:drawablePadding="16dp"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="HOUSE BARATHEON"
+                app:layout_constraintStart_toStartOf="@+id/mHouseLannisterTV"
+                app:layout_constraintTop_toBottomOf="@+id/mHouseLannisterTV"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:text="@string/copyright_announcement"
+                android:textColor="@color/colorText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
+    </com.xw.repo.widget.BounceScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

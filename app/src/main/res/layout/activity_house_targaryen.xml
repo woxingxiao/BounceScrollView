@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/drawable_house_targaryen"
+        android:orientation="vertical">
+
+        <com.xw.repo.widget.BounceScrollView
+            android:id="@+id/mBounceScrollViewVer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:damping="2.0">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/sigil_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/sigil_of_house_targaryen"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    style="@style/TextStyleWithFont"
+                    android:layout_marginStart="16dp"
+                    android:text="HOUSE TARGARYEN"
+                    app:layout_constraintStart_toEndOf="@+id/sigil_iv"
+                    app:layout_constraintTop_toTopOf="@+id/sigil_iv"/>
+
+                <TextView
+                    android:id="@+id/motto_tv"
+                    style="@style/TextStyleWithFont"
+                    android:layout_marginTop="8dp"
+                    android:text="FIRE AND BLOOD"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/name_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/name_tv"/>
+
+                <TextView
+                    android:id="@+id/introduction_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@string/introduction_of_house_targaryen"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sigil_iv"/>
+            </android.support.constraint.ConstraintLayout>
+        </com.xw.repo.widget.BounceScrollView>
+
+        <com.xw.repo.widget.BounceScrollView
+            android:id="@+id/mBounceScrollViewHor"
+            android:layout_width="480dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:damping="2.0"
+            app:scrollOrientation="horizontal">
+
+            <TextView
+                style="@style/TextStyleWithFont"
+                android:layout_width="match_parent"
+                android:drawablePadding="16dp"
+                android:drawableEnd="@drawable/pic_the_happy_mother_of_dragons"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/title_of_daenerys_targaryen"
+                android:textSize="14sp"/>
+        </com.xw.repo.widget.BounceScrollView>
+
+        <TextView
+            android:id="@+id/switch_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Set whether incremental damping or not"
+            android:textColor="@color/colorAccent"/>
+
+        <Switch
+            android:id="@+id/mSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:checked="true"/>
+    </LinearLayout>
+</LinearLayout>
