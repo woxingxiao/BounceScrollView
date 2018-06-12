@@ -8,13 +8,14 @@
 ****
 ## Features
 - :spades:Maximum adaptability. It supports the **horizontal** and the **vertical** direction,  and extends the `NestScrollView`. So it not only can work just like the `ScrollView` and the `HorizontalScrollView`, but also can work properly with  *Nest Scrolling*.
-- :hearts:Customizable **damping** coefficient (easier or harder to over scroll). The **incremental damping** or constant damping can be chose during the over scrolling.
+- :hearts:Customizable **damping** coefficient (easier or harder to over scroll). The **incremental damping** or constant damping can be chose during the over-scrolling.
 - :clubs:Customizable **bounce delay**, the duration of the restoring animation.
 - :diamonds:Customizable **interpolator**, the rate of change of the restoring animation.
 ***
-![demo1](https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo1.gif)  
-![demo2](https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo2.gif) ![demo3](https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo3.gif)
-![demo4](https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo4.gif) ![demo5](https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo5.gif)
+<p>
+<img src="https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo1.gif" width="280"/> 
+<img src="https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo2.gif" width="280"/> <img src="https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo3.gif" width="280"/> <img src="https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo4.gif" width="280"/> <img src="https://github.com/woxingxiao/BounceScrollView/blob/master/screenshot/demo5.gif" width="280"/>
+</p>
 
 ## Download
 root project:`build.gradle`
@@ -57,11 +58,11 @@ damping|float|The damping coefficient. The greater the value, the hard it is to 
 scrollOrientation|enum|The children layout direction. Default: `vertical`
 incrementalDamping|boolean|Whether the damping coefficient growing with the distance or not. Default: `true`
 bounceDelay|long|The duration of restoring animation. Default: `400(ms)`
-triggerOverScrollThreshold|int|The length in pixel to trigger over scrolling. Default: `20(px)`
+triggerOverScrollThreshold|int|The length in pixel to trigger over-scrolling. Default: `20(px)`
 ***
 >It took me an amount of time to adjust the parameters pixel by pixel, in order to achieve the best experience I think.:beers:
 ***
-:cake:If the attr *damping* is set to 2.0, the over scrolling effort is almost the same as `UIScrollView` in iOS.  
+:cake:If the attr *damping* is set to 2.0, the over-scrolling effort is almost the same as `UIScrollView` in iOS.  
 :cake:The  interpolator of the restoring animation is customizable. You can do it by:
 
 ```java
