@@ -32,7 +32,8 @@ public class BounceScrollView extends NestedScrollView {
     private int mPreDelta;
     private int mOverScrolledDistance;
     private Rect mNormalRect = new Rect();
-    private OnOverScrollListener mListener;
+    private OnScrollListener mScrollListener;
+    private OnOverScrollListener mOverScrollListener;
 
     public BounceScrollView(@NonNull Context context) {
         this(context, null);
@@ -149,9 +150,9 @@ public class BounceScrollView extends NestedScrollView {
                                 mChildView.getRight(), mChildView.getBottom() - dampingDelta);
                     }
 
-                    if (mListener != null) {
+                    if (mOverScrollListener != null) {
                         mOverScrolledDistance += dampingDelta;
-                        mListener.onOverScrolling(mOverScrolledDistance <= 0, Math.abs(mOverScrolledDistance));
+                        mOverScrollListener.onOverScrolling(mOverScrolledDistance <= 0, Math.abs(mOverScrolledDistance));
                     }
                 }
 
@@ -233,6 +234,15 @@ public class BounceScrollView extends NestedScrollView {
         }
     }
 
+    @Override
+    protected void onScrollChanged(int scrollX, int scrollY, int oldl, int oldt) {
+        super.onScrollChanged(scrollX, scrollY, oldl, oldt);
+
+        if (mScrollListener != null) {
+            mScrollListener.onScrolling(scrollX, scrollY);
+        }
+    }
+
     public void setScrollHorizontally(boolean horizontal) {
         this.mHorizontal = horizontal;
     }
@@ -283,8 +293,12 @@ public class BounceScrollView extends NestedScrollView {
         }
     }
 
-    public void setOnOverScrollListener(OnOverScrollListener listener) {
-        mListener = listener;
+    public void setOnScrollListener(OnScrollListener scrollListener) {
+        mScrollListener = scrollListener;
+    }
+
+    public void setOnOverScrollListener(OnOverScrollListener overScrollListener) {
+        mOverScrollListener = overScrollListener;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -297,7 +311,15 @@ public class BounceScrollView extends NestedScrollView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    public interface OnScrollListener {
+        void onScrolling(int scrollX, int scrollY);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public interface OnOverScrollListener {
+        /**
+         * @param fromStart LTR, the left is start; RTL, the right is start.
+         */
         void onOverScrolling(boolean fromStart, int overScrolledDistance);
     }
 }
