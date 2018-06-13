@@ -51,6 +51,24 @@ app:`build.gradle`
      </android.support.constraint.ConstraintLayout>
 </com.xw.repo.widget.BounceScrollView>
 ```
+Listener to the scrolling event of content of the `BounceScrollView`:
+```java
+mBounceScrollView.setOnScrollListener(new OnScrollListener() {
+    @Override
+    public void onScrolling(int scrollX, int scrollY) {
+
+    }
+});
+```
+Listener to the over-scrolling event of the `BounceScrollView`:
+```java
+mBounceScrollView.setOnOverScrollListener(new OnOverScrollListener() {
+    @Override
+    public void onOverScrolling(boolean fromStart, int overScrolledDistance) {
+
+    }
+});
+```
 ## Attributes
 Attr|Format|Descrption
 ----|----|----
