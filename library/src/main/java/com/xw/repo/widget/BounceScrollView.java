@@ -1,20 +1,17 @@
 package com.xw.repo.widget;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Rect;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MarginLayoutParamsCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Interpolator;
-import android.view.animation.TranslateAnimation;
 
 public class BounceScrollView extends NestedScrollView {
 
@@ -27,13 +24,14 @@ public class BounceScrollView extends NestedScrollView {
     private boolean mIncrementalDamping;
     private long mBounceDelay;
     private int mTriggerOverScrollThreshold;
+    private boolean mDisableBounce;
 
     private Interpolator mInterpolator;
     private View mChildView;
     private float mStart;
     private int mPreDelta;
     private int mOverScrolledDistance;
-    private Rect mNormalRect = new Rect();
+    private ObjectAnimator mAnimator;
     private OnScrollListener mScrollListener;
     private OnOverScrollListener mOverScrollListener;
 
@@ -48,7 +46,6 @@ public class BounceScrollView extends NestedScrollView {
     public BounceScrollView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        setOverScrollMode(OVER_SCROLL_NEVER);
         setVerticalScrollBarEnabled(false);
         setHorizontalScrollBarEnabled(false);
         setFillViewport(true);
@@ -60,58 +57,12 @@ public class BounceScrollView extends NestedScrollView {
         mIncrementalDamping = a.getBoolean(R.styleable.BounceScrollView_incrementalDamping, true);
         mBounceDelay = a.getInt(R.styleable.BounceScrollView_bounceDelay, (int) DEFAULT_BOUNCE_DELAY);
         mTriggerOverScrollThreshold = a.getInt(R.styleable.BounceScrollView_triggerOverScrollThreshold, DEFAULT_SCROLL_THRESHOLD);
+        mDisableBounce = a.getBoolean(R.styleable.BounceScrollView_disableBounce, false);
+        boolean enable = a.getBoolean(R.styleable.BounceScrollView_nestedScrollingEnabled, true);
         a.recycle();
 
-        if (mIncrementalDamping) {
-            mInterpolator = new DefaultQuartOutInterpolator();
-        }
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
-        if (getChildCount() > 0) {
-            mChildView = getChildAt(0);
-        }
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        if (getChildCount() > 0) {
-            View child = getChildAt(0);
-            int childMeasuredHeight = child.getMeasuredHeight();
-            if (childMeasuredHeight <= 0)
-                return;
-            int childMeasuredWidth = child.getMeasuredWidth();
-
-            int marginStart;
-            int topMargin;
-            int marginEnd;
-            int bottomMargin;
-            ViewGroup.LayoutParams lp = child.getLayoutParams();
-            if (lp instanceof MarginLayoutParams) {
-                marginStart = MarginLayoutParamsCompat.getMarginStart((MarginLayoutParams) lp);
-                topMargin = ((MarginLayoutParams) lp).topMargin;
-                marginEnd = MarginLayoutParamsCompat.getMarginEnd((MarginLayoutParams) lp);
-                bottomMargin = ((MarginLayoutParams) lp).bottomMargin;
-
-                if (marginStart != 0 || topMargin != 0 || marginEnd != 0 || bottomMargin != 0) {
-                    if (childMeasuredHeight <= getMeasuredHeight()) {
-                        childMeasuredWidth -= marginStart + marginEnd;
-                        childMeasuredHeight -= topMargin + bottomMargin;
-                    } else {
-                        childMeasuredHeight += topMargin + bottomMargin;
-                    }
-                    int widthSpec = MeasureSpec.makeMeasureSpec(childMeasuredWidth, MeasureSpec.EXACTLY);
-                    int heightSpec = MeasureSpec.makeMeasureSpec(childMeasuredHeight, MeasureSpec.EXACTLY);
-
-                    child.measure(widthSpec, heightSpec);
-                }
-            }
-        }
+        setNestedScrollingEnabled(enable);
+        mInterpolator = new DefaultQuartOutInterpolator();
     }
 
     @Override
@@ -126,35 +77,22 @@ public class BounceScrollView extends NestedScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mStart = isHorizontal ? ev.getX() : ev.getY();
-
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (isHorizontal) {
-                    float scrollX = ev.getX() - mStart;
-                    return Math.abs(scrollX) >= mTriggerOverScrollThreshold;
-                } else {
-                    float scrollY = ev.getY() - mStart;
-                    return Math.abs(scrollY) >= mTriggerOverScrollThreshold;
-                }
+        if (mChildView == null && getChildCount() > 0 || mChildView != getChildAt(0)) {
+            mChildView = getChildAt(0);
         }
-
         return super.onInterceptTouchEvent(ev);
     }
 
     @Override
-    public boolean performClick() {
-        return super.performClick();
-    }
-
-    @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mChildView == null)
+        if (mChildView == null || mDisableBounce)
             return super.onTouchEvent(ev);
 
         switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                mStart = isHorizontal ? ev.getX() : ev.getY();
+
+                break;
             case MotionEvent.ACTION_MOVE:
                 float now, delta;
                 int dampingDelta;
@@ -173,34 +111,40 @@ public class BounceScrollView extends NestedScrollView {
                 mPreDelta = dampingDelta;
 
                 if (onePointerTouch && canMove(dampingDelta)) {
-                    if (mNormalRect.isEmpty()) {
-                        mNormalRect.set(mChildView.getLeft(), mChildView.getTop(),
-                                mChildView.getRight(), mChildView.getBottom());
-                    }
-
+                    mOverScrolledDistance += dampingDelta;
                     if (isHorizontal) {
-                        mChildView.layout(mChildView.getLeft() - dampingDelta, mChildView.getTop(),
-                                mChildView.getRight() - dampingDelta, mChildView.getBottom());
+                        mChildView.setTranslationX(-mOverScrolledDistance);
                     } else {
-                        mChildView.layout(mChildView.getLeft(), mChildView.getTop() - dampingDelta,
-                                mChildView.getRight(), mChildView.getBottom() - dampingDelta);
+                        mChildView.setTranslationY(-mOverScrolledDistance);
                     }
-
                     if (mOverScrollListener != null) {
-                        mOverScrolledDistance += dampingDelta;
                         mOverScrollListener.onOverScrolling(mOverScrolledDistance <= 0, Math.abs(mOverScrolledDistance));
                     }
                 }
 
                 break;
             case MotionEvent.ACTION_UP:
-                performClick();
             case MotionEvent.ACTION_CANCEL:
-                if (!mNormalRect.isEmpty()) {
-                    resetChildViewWithAnimation();
-                }
                 mPreDelta = 0;
                 mOverScrolledDistance = 0;
+
+                cancelAnimator();
+                if (isHorizontal) {
+                    mAnimator = ObjectAnimator.ofFloat(mChildView, View.TRANSLATION_X, 0);
+                } else {
+                    mAnimator = ObjectAnimator.ofFloat(mChildView, View.TRANSLATION_Y, 0);
+                }
+                mAnimator.setDuration(mBounceDelay).setInterpolator(mInterpolator);
+                if (mOverScrollListener != null) {
+                    mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float value = (float) animation.getAnimatedValue();
+                            mOverScrollListener.onOverScrolling(value <= 0, Math.abs((int) value));
+                        }
+                    });
+                }
+                mAnimator.start();
 
                 break;
         }
@@ -211,9 +155,9 @@ public class BounceScrollView extends NestedScrollView {
     private float calculateDamping() {
         float ratio;
         if (isHorizontal) {
-            ratio = Math.abs(mChildView.getLeft()) * 1.0f / mChildView.getMeasuredWidth();
+            ratio = Math.abs(mChildView.getTranslationX()) * 1.0f / mChildView.getMeasuredWidth();
         } else {
-            ratio = Math.abs(mChildView.getTop()) * 1.0f / mChildView.getMeasuredHeight();
+            ratio = Math.abs(mChildView.getTranslationY()) * 1.0f / mChildView.getMeasuredHeight();
         }
         ratio += 0.2;
 
@@ -224,50 +168,8 @@ public class BounceScrollView extends NestedScrollView {
         }
     }
 
-    private void resetChildViewWithAnimation() {
-        TranslateAnimation anim;
-
-        ViewGroup.LayoutParams layoutParams = mChildView.getLayoutParams();
-        int fixedPadding;
-        int fixedMargin = 0;
-        if (isHorizontal) {
-            if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                fixedPadding = ViewCompat.getPaddingEnd(this);
-                if (layoutParams instanceof MarginLayoutParams) {
-                    fixedMargin = MarginLayoutParamsCompat.getMarginEnd((MarginLayoutParams) layoutParams);
-                }
-            } else {
-                fixedPadding = ViewCompat.getPaddingStart(this);
-                if (layoutParams instanceof MarginLayoutParams) {
-                    fixedMargin = MarginLayoutParamsCompat.getMarginStart((MarginLayoutParams) layoutParams);
-                }
-            }
-            anim = new TranslateAnimation(
-                    mChildView.getLeft() - fixedPadding - fixedMargin,
-                    mNormalRect.left - fixedPadding - fixedMargin,
-                    0,
-                    0);
-        } else {
-            fixedPadding = getPaddingTop();
-            if (layoutParams instanceof MarginLayoutParams) {
-                fixedMargin = ((MarginLayoutParams) layoutParams).topMargin;
-            }
-            anim = new TranslateAnimation(
-                    0,
-                    0,
-                    mChildView.getTop() - fixedPadding - fixedMargin,
-                    mNormalRect.top - fixedPadding - fixedMargin);
-        }
-        anim.setInterpolator(mInterpolator);
-        anim.setDuration(mBounceDelay);
-        mChildView.startAnimation(anim);
-        mChildView.layout(mNormalRect.left, mNormalRect.top, mNormalRect.right, mNormalRect.bottom);
-
-        mNormalRect.setEmpty();
-    }
-
     private boolean canMove(int delta) {
-        return delta != 0 && delta < 0 ? canMoveFromStart() : canMoveFromEnd();
+        return delta < 0 ? canMoveFromStart() : canMoveFromEnd();
     }
 
     private boolean canMoveFromStart() {
@@ -286,6 +188,12 @@ public class BounceScrollView extends NestedScrollView {
         }
     }
 
+    private void cancelAnimator() {
+        if (mAnimator != null && mAnimator.isRunning()) {
+            mAnimator.cancel();
+        }
+    }
+
     @Override
     protected void onScrollChanged(int scrollX, int scrollY, int oldl, int oldt) {
         super.onScrollChanged(scrollX, scrollY, oldl, oldt);
@@ -293,6 +201,13 @@ public class BounceScrollView extends NestedScrollView {
         if (mScrollListener != null) {
             mScrollListener.onScrolling(scrollX, scrollY);
         }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        cancelAnimator();
     }
 
     public void setScrollHorizontally(boolean horizontal) {
@@ -329,6 +244,14 @@ public class BounceScrollView extends NestedScrollView {
 
     public boolean isIncrementalDamping() {
         return mIncrementalDamping;
+    }
+
+    public boolean isDisableBounce() {
+        return mDisableBounce;
+    }
+
+    public void setDisableBounce(boolean disable) {
+        mDisableBounce = disable;
     }
 
     public void setBounceInterpolator(@NonNull Interpolator interpolator) {
