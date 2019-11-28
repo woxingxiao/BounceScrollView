@@ -35,8 +35,8 @@
                 <TextView
                     android:id="@+id/name_tv"
                     style="@style/TextStyleWithFont"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
                     android:text="HOUSE BARATHEON"
                     app:layout_constraintStart_toEndOf="@+id/sigil_iv"
                     app:layout_constraintTop_toTopOf="@+id/sigil_iv"/>
@@ -59,22 +59,34 @@
                     android:text="@string/introduction_of_house_baratheon"
                     android:textColor="@color/colorText"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@+id/mInterpolatorNameTV"
+                    app:layout_constraintBottom_toTopOf="@+id/hint_tv"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sigil_iv"/>
 
                 <TextView
-                    android:id="@+id/mInterpolatorNameTV"
-                    android:layout_width="match_parent"
+                    android:id="@+id/hint_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:padding="16dp"
-                    android:text="Interpolator of bounce movement: QUAD_IN"
+                    android:layout_marginBottom="8dp"
+                    android:text="Choose the interpolator of bounce movement:"
                     android:textColor="@color/colorAccent"
+                    app:layout_constraintBottom_toTopOf="@+id/interpolatorNameBtn"
+                    app:layout_constraintStart_toStartOf="@+id/interpolatorNameBtn"/>
+
+                <android.support.design.button.MaterialButton
+                    android:id="@+id/interpolatorNameBtn"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="QUAD_IN"
+                    app:cornerRadius="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/hint_tv"
+                    app:strokeColor="@color/colorAccent"/>
             </android.support.constraint.ConstraintLayout>
         </com.xw.repo.widget.BounceScrollView>
     </FrameLayout>

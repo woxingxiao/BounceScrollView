@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.xw.repo.BubbleSeekBar
-import kotlinx.android.synthetic.main.activity_house_stark.*
+import kotlinx.android.synthetic.main.activity_house_lannister.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**

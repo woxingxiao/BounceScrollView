@@ -23,7 +23,7 @@ class HouseBaratheonActivity : AppCompatActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 
-        mInterpolatorNameTV.setOnClickListener {
+        interpolatorNameBtn.setOnClickListener {
             PickerFragment().show(supportFragmentManager, PickerFragment::class.java.simpleName)
         }
     }
@@ -37,7 +37,7 @@ class HouseBaratheonActivity : AppCompatActivity() {
     }
 
     fun onInterpolatorSelected(ease: Ease) {
-        mInterpolatorNameTV.text = String.format("Interpolator of bounce movement: %s", ease.name)
+        interpolatorNameBtn.text = ease.name
         mBounceScrollView.setBounceInterpolator { input -> EasingProvider.get(ease, input) }
     }
 }
