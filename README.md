@@ -28,9 +28,17 @@ root project:`build.gradle`
   }
 ```
 app:`build.gradle`
+
+Support:
 ```groovy
   dependencies {
      implementation 'com.github.woxingxiao:BounceScrollView:LATEST_VERSION'
+  }
+```
+AndroidX:
+```groovy
+  dependencies {
+     implementation 'com.github.woxingxiao:BounceScrollView:LATEST_VERSION-androidx'
   }
 ```
 
@@ -77,8 +85,10 @@ scrollOrientation|enum|The children layout direction. Default: `vertical`
 incrementalDamping|boolean|Whether the damping coefficient growing with the distance or not. Default: `true`
 bounceDelay|long|The duration of restoring animation. Default: `400(ms)`
 triggerOverScrollThreshold|int|The length in pixel to trigger over-scrolling. Default: `20(px)`
+disableBounce|boolean|Disable the bounce effect. Default: `false`
+nestedScrollingEnabled|boolean|Whether nested scrolling is enabled. Default: `true`
 ***
->It took me an amount of time to adjust the parameters pixel by pixel, in order to achieve the best experience I think.:beers:
+>It took me tons of time to adjust the parameters pixel by pixel, in order to achieve the best experience I think.:beers:
 ***
 :cake:If the attr *damping* is set to 2.0, the over-scrolling effort is almost the same as `UIScrollView` in iOS.  
 :cake:The  interpolator of the restoring animation is customizable. You can do it by:
@@ -86,9 +96,9 @@ triggerOverScrollThreshold|int|The length in pixel to trigger over-scrolling. De
 ```java
 mBounceScrollView.setBounceInterpolator(new YourCustomizedInterpolator());
 ```
-Thanks to the repo [EasingInterpolator](https://github.com/MasayukiSuda/EasingInterpolator), there are multiple choices to choose.
+Thanks to the repo [EasingInterpolator](https://github.com/MasayukiSuda/EasingInterpolator), there are multiple choices to make.
 ***
-Most of the resources in the sample come from [gameofthrones.com](http://www.gameofthrones.com). Everybody likes GoT, right? :wink:
+Most of the resources in the sample come from [gameofthrones.com](http://www.gameofthrones.com).
 
 ## License
 ```
