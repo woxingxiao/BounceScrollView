@@ -1,15 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 5
-        versionName "1.4"
+        versionName "1.4-androidx"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -23,5 +23,5 @@ android {
 }
 
 dependencies {
-    compileOnly 'com.android.support:appcompat-v7:28.0.0'
+    compileOnly 'androidx.appcompat:appcompat:1.1.0'
 }
