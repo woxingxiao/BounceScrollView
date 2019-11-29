@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
+<androidx.appcompat.widget.Toolbar
     android:id="@+id/mToolbar"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,4 +11,4 @@
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:title=" ">
 
-</android.support.v7.widget.Toolbar>
+</androidx.appcompat.widget.Toolbar>

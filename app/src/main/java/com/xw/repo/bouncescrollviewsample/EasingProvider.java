@@ -1,6 +1,6 @@
 package com.xw.repo.bouncescrollviewsample;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.daasuu.ei.Ease;
 
@@ -16,8 +16,6 @@ class EasingProvider {
      */
     public static float get(@NonNull Ease ease, float elapsedTimeRate) {
         switch (ease) {
-            case LINEAR:
-                return elapsedTimeRate;
             case QUAD_IN:
                 return getPowIn(elapsedTimeRate, 2);
             case QUAD_OUT:

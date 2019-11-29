@@ -1,7 +1,7 @@
 package com.xw.repo.bouncescrollviewsample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import com.xw.repo.BubbleSeekBar
 import kotlinx.android.synthetic.main.activity_house_stark.*
