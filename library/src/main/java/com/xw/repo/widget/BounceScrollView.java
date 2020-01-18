@@ -49,6 +49,7 @@ public class BounceScrollView extends NestedScrollView {
         setVerticalScrollBarEnabled(false);
         setHorizontalScrollBarEnabled(false);
         setFillViewport(true);
+        setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BounceScrollView, 0, 0);
         mDamping = a.getFloat(R.styleable.BounceScrollView_damping, DEFAULT_DAMPING_COEFFICIENT);
