@@ -34,6 +34,7 @@ public class BounceScrollView extends NestedScrollView {
     private ObjectAnimator mAnimator;
     private OnScrollListener mScrollListener;
     private OnOverScrollListener mOverScrollListener;
+    private int maxOverScrollDistance =0;
 
     public BounceScrollView(@NonNull Context context) {
         this(context, null);
@@ -170,7 +171,18 @@ public class BounceScrollView extends NestedScrollView {
     }
 
     private boolean canMove(int delta) {
-        return delta < 0 ? canMoveFromStart() : canMoveFromEnd();
+        if (delta < 0) {
+            if(maxOverScrollDistance != 0 && mOverScrolledDistance < -maxOverScrollDistance){
+            return false;
+            }
+           return canMoveFromStart();
+        } else {
+            if(maxOverScrollDistance != 0 &&  mOverScrolledDistance > maxOverScrollDistance){
+                return false;
+            }
+            return canMoveFromEnd();
+        }
+        //return delta < 0 ? canMoveFromStart() : canMoveFromEnd();
     }
 
     private boolean canMoveFromStart() {
@@ -275,6 +287,14 @@ public class BounceScrollView extends NestedScrollView {
 
     public void setOnOverScrollListener(OnOverScrollListener overScrollListener) {
         mOverScrollListener = overScrollListener;
+    }
+    
+    publilc void setMaxOverScrollDistance(int max){
+        maxOverScrollDistance = max;
+    }
+    
+    public int getMaxOverScrollDistance(){
+        return maxOverScrollDistance;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
