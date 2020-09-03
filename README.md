@@ -77,6 +77,10 @@ mBounceScrollView.setOnOverScrollListener(new OnOverScrollListener() {
     }
 });
 ```
+Optional : set Maximum over-scroll bounce range
+```java
+mBounceScrollView.setmaxOverScrollDistance(200)
+```
 ## Attributes
 Attr|Format|Descrption
 ----|----|----
